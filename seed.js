@@ -2,81 +2,84 @@ const { db, Spaces } = require('./server/db')
 const { green, red } = require('chalk')
 const { data, addressArray } = require('./data.js')
 const fetch = require('node-fetch')
+//
+
+// )
 
 const seed = async () => {
   await db.sync({ force: true })
 
   for (let i = 0; i < data.length; i++) {
-    let space = data[i]
-    // let mapInfo = addressArray.map(a =>
-    //   fetch(
-    //     `http://open.mapquestapi.com/geocoding/v1/address?key=BGCVggKXKVscIKMloZtIWNJ3iufKg02c&location=${a}`
-    //   ).then(response => console.log(response))
-    // )
-    // for (let i = 0; i < mapInfo.length; i++) {
-    //   if (mapInfo[i]['adminArea5'] === 'New York City') {
-    //     let latitude = mapInfo[i]['latLng'].lat
-    //     let longitude = mapInfo[i]['latLng'].lng
-    //   }
-    // }
-
     try {
+      let response = await fetch(
+        `http://open.mapquestapi.com/geocoding/v1/address?key=BGCVggKXKVscIKMloZtIWNJ3iufKg02c&location=${
+          addressArray[i]
+        }+new+york`
+      )
+
+      let myJson = await response.json()
+
+      let { lat, lng } = myJson.results[0].locations[0].latLng
+
       await Spaces.create({
-        address: space['Building Address'],
-        buildingName: space['Building Name'],
-        buildingLocation: space['Building Location'],
-        // latitude: latitude,
-        // longitude: longitude,
+        address: addressArray[i],
+        buildingName: data[i]['Building Name'],
+        buildingLocation: data[i]['Building Location'],
+        latitude: lat,
+        longitude: lng,
         state: 'New York',
-        type1: space['Public Space 1'],
-        type2: space['Public Space 2'],
-        type3: space['Public Space 3'],
-        type4: space['Public Space 4'],
-        type5: space['Public Space 5']
+        type1: data[i]['Public Space 1'],
+        type2: data[i]['Public Space 2'],
+        type3: data[i]['Public Space 3'],
+        type4: data[i]['Public Space 4'],
+        type5: data[i]['Public Space 5']
       })
     } catch (error) {
-      error.message
+      console.error(error)
     }
   }
 
-  // const NYU = await Spaces.create({
-  //   name: 'NYU',
-  //   imgUrl:
-  //     'https://yt3.ggpht.com/-RZYi5isxH_M/AAAAAAAAAAI/AAAAAAAAAAA/rmWpoe2qZzI/s900-c-k-no/photo.jpg',
-  //   address: 'washington square park',
-  //   description:
-  //     'This school is for the person who wants to live in NYC forever. You will have the whole city as your campus.'
-  // })
+  // const stuff = fetch(
+  //   `http://open.mapquestapi.com/geocoding/v1/address?key=BGCVggKXKVscIKMloZtIWNJ3iufKg02c&location=${a}+new+york`
+  // )
+  //   .then(function(response) {
+  //     return response.json()
+  //   })
+  //   .then(json => json.results[0].locations)
+  //   .then(locations => {
+  //     if ()
+  //   })
 
-  // const UCLA = await Campuses.create({
-  //   name: 'UCLA',
-  //   imgUrl:
-  //     'http://www.insidesocal.com/ucla/files/2017/06/UCLA_WW_PRI_LOGO_ON_WHT.jpg',
-  //   address: '2164 Hollywood Boulevard',
-  //   description:
-  //     'This school is for the person who wants to live in LA forever. You will have the whole city as your campus.'
-  // })
+  // for (let i = 0; i < data.length; i++) {
+  //
+  //   let latitude, longitude
 
-  // const hannah = await Students.create({
-  //   firstName: 'Hannah',
-  //   lastName: 'Greenberg',
-  //   email: 'hannah@gmail.com',
-  //   imgUrl:
-  //     'https://cdn.fstoppers.com/styles/large-16-9/s3/lead/2018/06/make_impossible_possible_adobe_stock_final_lead_0.jpg',
-  //   gpa: 3.6,
-  //   campusId: 2
-  // })
+  //   for (let i = 0; i < mapInfo.length; i++) {
+  //     latitude = latitude
+  //     longitude = longitude
+  //     if (mapInfo[i]['adminArea5'] === 'New York City') {
+  //       latitude = mapInfo[i]['latLng'].lat
+  //       longitude = mapInfo[i]['latLng'].lng
+  //     }
+  //   }
 
-  // const zack = await Students.create({
-  //   firstName: 'Zachary',
-  //   lastName: 'Smith',
-  //   email: 'zack@gmail.com',
-  //   imgUrl:
-  //     'https://static.boredpanda.com/blog/wp-content/uploads/2017/12/funny-weird-wtf-stock-photos-57-5a3bb7ba3c266__700.jpg',
-  //   gpa: 2.8,
-  //   campusId: 1
-  // })
-  // seed your database here!
+  // try {
+  //   await Spaces.create({
+  //     address: space['Building Address'],
+  //     buildingName: space['Building Name'],
+  //     buildingLocation: space['Building Location'],
+  //     // latitude: latitude,
+  //     // longitude: longitude,
+  //     state: 'New York',
+  //     type1: space['Public Space 1'],
+  //     type2: space['Public Space 2'],
+  //     type3: space['Public Space 3'],
+  //     type4: space['Public Space 4'],
+  //     type5: space['Public Space 5']
+  //   })
+  // } catch (error) {
+  //   error.message
+  // }
 
   console.log(green('Seeding success!'))
   db.close()

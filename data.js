@@ -2726,27 +2726,27 @@ const data = [
     'Public Space 5': '',
     'PS 5 Size': 0
   },
-  {
-    'Community District': 5,
-    'Book ID #': '067',
-    'DCP RECORD': 564,
-    'Block/Lot': '783/1,34,70',
-    'Building Address': '1 Pennsylvania Plaza',
-    'Building Name': 'One Penn Plaza',
-    'Building Location':
-      'Full block between Seventh and Eighth Avenues and West 33rd and 34th Streets',
-    'Year Completed': 1972,
-    'Public Space 1': 'Plaza',
-    'PS 1 Size': 50095.5,
-    'Public Space 2': 'Arcade',
-    'PS 2 Size': 3822,
-    'Public Space 3': '',
-    'PS 3 Size': '',
-    'Public Space 4': '',
-    'PS 4 Size': '',
-    'Public Space 5': '',
-    'PS 5 Size': ''
-  },
+  // {
+  //   'Community District': 5,
+  //   'Book ID #': '067',
+  //   'DCP RECORD': 564,
+  //   'Block/Lot': '783/1,34,70',
+  //   'Building Address': '1 Pennsylvania Plaza',
+  //   'Building Name': 'One Penn Plaza',
+  //   'Building Location':
+  //     'Full block between Seventh and Eighth Avenues and West 33rd and 34th Streets',
+  //   'Year Completed': 1972,
+  //   'Public Space 1': 'Plaza',
+  //   'PS 1 Size': 50095.5,
+  //   'Public Space 2': 'Arcade',
+  //   'PS 2 Size': 3822,
+  //   'Public Space 3': '',
+  //   'PS 3 Size': '',
+  //   'Public Space 4': '',
+  //   'PS 4 Size': '',
+  //   'Public Space 5': '',
+  //   'PS 5 Size': ''
+  // },
   {
     'Community District': 5,
     'Book ID #': '068',
@@ -8172,7 +8172,7 @@ const data = [
 ]
 
 const addressArray = data.map(space => {
-  space['Building Address']
+  return space['Building Address']
 })
 
 module.exports = { data, addressArray }

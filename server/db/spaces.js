@@ -19,10 +19,10 @@ const Spaces = db.define('spaces', {
     type: Sequelize.STRING
   },
   latitude: {
-    type: Sequelize.INTEGER
+    type: Sequelize.DECIMAL
   },
   longitude: {
-    type: Sequelize.INTEGER
+    type: Sequelize.DECIMAL
   },
   type1: {
     type: Sequelize.STRING
