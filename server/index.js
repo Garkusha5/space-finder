@@ -1,7 +1,7 @@
 'use strict'
-
+const { db } = require('./db/index')
 const express = require('express')
-const path = require('path')
+// const path = require('path')
 const volleyball = require('volleyball')
 
 const app = express()
@@ -9,17 +9,24 @@ const app = express()
 app.use(volleyball)
 
 // body parsing middleware
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+// app.use(express.json())
+// app.use(express.urlencoded({ extended: true }))
 
 // static middleware
-app.use(express.static(path.join(__dirname, '../public')))
+// app.use(express.static(path.join(__dirname, '../public')))
 
 app.use('/api', require('./api')) // include our routes!
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'))
-}) // Send index.html for any other requests
+const PORT = 1337
+
+db.sync().then(() => {
+  console.log('db synced')
+  app.listen(PORT, () => console.log(`listening on port: ${PORT}`))
+})
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../public/index.html'))
+// }) // Send index.html for any other requests
 
 // error handling middleware
 app.use((err, req, res, next) => {

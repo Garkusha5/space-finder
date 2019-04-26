@@ -1,21 +1,26 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { Constants, MapView, Location, Permissions } from 'expo'
+import { getSpaces } from '../redux/rootReducer'
+import { connect } from 'react-redux'
 
-export default class MapScreen extends React.Component {
+class MapScreen extends React.Component {
   state = {
-    mapRegion: {
-      latitude: 37.78825,
-      longitude: -122.4324,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421
-    },
+    info: [],
     locationResult: null,
     location: { coords: { latitude: 37.78825, longitude: -122.4324 } }
   }
 
   componentDidMount() {
     this._getLocationAsync()
+
+    // fetch('/api/spaces')
+    //   .then(data => data.json())
+    //   .then(data => this.setState({ info: data }))
+    // } catch (error) {
+    //   console.error(error.message)
+    // }
+    this.props.setData()
   }
 
   _getLocationAsync = async () => {
@@ -43,9 +48,12 @@ export default class MapScreen extends React.Component {
             longitudeDelta: 0.0421
           }}
           showsUserLocation={true}
-        />
-
-        {/* Location: {this.state.locationResult} */}
+        >
+          <MapView.Marker
+            coordinate={{ latitude: 40.761511, longitude: -73.973493 }}
+            //  pinColor={‘aqua’}
+          />
+        </MapView>
       </View>
     )
   }
@@ -70,3 +78,12 @@ const styles = StyleSheet.create({
     flex: 1
   }
 })
+
+const mapDispatchToProps = dispatch => {
+  return { setData: () => dispatch(getSpaces()) }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(MapScreen)
