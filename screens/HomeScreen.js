@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  ImageBackground
 } from 'react-native'
 import { WebBrowser } from 'expo'
 
@@ -28,7 +29,7 @@ export default class HomeScreen extends React.Component {
             <Image
               source={
                 __DEV__
-                  ? require('../assets/images/robot-dev.png')
+                  ? require('../assets/images/icons8-rocket-64.png')
                   : require('../assets/images/robot-prod.png')
               }
               style={styles.welcomeImage}
@@ -46,34 +47,19 @@ export default class HomeScreen extends React.Component {
               <MonoText style={styles.codeHighlightText}>SPACE FINDER</MonoText>
             </View>
           </View>
-
-          {/* <View style={styles.helpContainer}>
-            <Text>This app was created by Marielle Combier-Kapel</Text>
-            <TouchableOpacity
-              onPress={this._handleHelpPress}
-              style={styles.helpLink}
-            >
-              <Text style={styles.helpLinkText}>view github</Text>
-            </TouchableOpacity>
-            </View> */}
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>
-            This app was created by Marielle Combier-Kapel
-          </Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.navigationFilename]}
-          >
-            <TouchableOpacity
-              onPress={this._handleHelpPress}
-              style={styles.helpLink}
-            >
-              <Text style={styles.helpLinkText}>view github</Text>
-            </TouchableOpacity>
+          <Image
+            source={require('../assets/images/spaceimg.jpg')}
+            style={styles.backgroundImage && { width: '100%', height: '100%' }}
+          />
+          <View>
+            <Text style={styles.getStartedText}>
+              Find the perfect hidden space near you.
+            </Text>
+            <Text style={styles.getStartedText}>
+              Click the map below to start!
+            </Text>
           </View>
-        </View>
+        </ScrollView>
       </View>
     )
   }
@@ -106,16 +92,17 @@ export default class HomeScreen extends React.Component {
       'https://docs.expo.io/versions/latest/guides/development-mode'
     )
   }
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync('https://github.com/marzipanick')
-  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: 'black'
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    height: '500px'
   },
   developmentModeText: {
     marginBottom: 20,
@@ -147,7 +134,8 @@ const styles = StyleSheet.create({
     marginVertical: 7
   },
   codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)'
+    color: 'white',
+    fontSize: 18
   },
   codeHighlightContainer: {
     backgroundColor: 'rgba(0,0,0,0.05)',
@@ -156,7 +144,7 @@ const styles = StyleSheet.create({
   },
   getStartedText: {
     fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
+    color: 'turquoise',
     lineHeight: 24,
     textAlign: 'center'
   },
@@ -177,12 +165,12 @@ const styles = StyleSheet.create({
       }
     }),
     alignItems: 'center',
-    backgroundColor: '#fbfbfb',
+    backgroundColor: 'black',
     paddingVertical: 20
   },
   tabBarInfoText: {
     fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
+    color: 'white',
     textAlign: 'center'
   },
   navigationFilename: {
@@ -191,12 +179,5 @@ const styles = StyleSheet.create({
   helpContainer: {
     marginTop: 15,
     alignItems: 'center'
-  },
-  helpLink: {
-    paddingVertical: 15
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7'
   }
 })

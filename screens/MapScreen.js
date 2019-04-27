@@ -1,25 +1,26 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import { Constants, MapView, Location, Permissions } from 'expo'
+import { Constants, MapView, Location, Permissions, Image } from 'expo'
 import { getSpaces } from '../redux/rootReducer'
 import { connect } from 'react-redux'
+// import console = require('console');
 
 class MapScreen extends React.Component {
-  state = {
-    info: [],
-    locationResult: null,
-    location: { coords: { latitude: 37.78825, longitude: -122.4324 } }
+  constructor(props) {
+    super(props)
+    this.state = {
+      info: [],
+      locationResult: null,
+      location: { coords: { latitude: 40.7051, longitude: -74.0092 } }
+    }
+  }
+
+  static navigationOptions = {
+    title: 'Map of Spaces'
   }
 
   componentDidMount() {
     this._getLocationAsync()
-
-    // fetch('/api/spaces')
-    //   .then(data => data.json())
-    //   .then(data => this.setState({ info: data }))
-    // } catch (error) {
-    //   console.error(error.message)
-    // }
     this.props.setData()
   }
 
@@ -49,10 +50,25 @@ class MapScreen extends React.Component {
           }}
           showsUserLocation={true}
         >
-          <MapView.Marker
-            coordinate={{ latitude: 40.761511, longitude: -73.973493 }}
-            //  pinColor={‘aqua’}
-          />
+          {this.props.data[0] !== undefined &&
+            this.props.data[0].map(space => (
+              <MapView.Marker
+                key={space.id}
+                coordinate={{
+                  latitude: Number(space.latitude),
+                  longitude: Number(space.longitude)
+                }}
+                title={space.buildingName || space.address}
+                description={
+                  space.type1 ||
+                  space.type2 ||
+                  space.type3 ||
+                  space.type4 ||
+                  space.type5
+                }
+                pinColor={'turquoise'}
+              />
+            ))}
         </MapView>
       </View>
     )
@@ -83,7 +99,11 @@ const mapDispatchToProps = dispatch => {
   return { setData: () => dispatch(getSpaces()) }
 }
 
+const mapStateToProps = state => {
+  return { data: state }
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(MapScreen)

@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 const SET_SPACES = 'SET_SPACES'
 
 const setSpaces = spaces => {
