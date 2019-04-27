@@ -10,9 +10,12 @@ const setSpaces = spaces => {
 }
 
 export const getSpaces = () => dispatch => {
-  fetch('/api/spaces')
-    .then(res => dispatch(setSpaces(res.data)))
-    .catch()
+  fetch('http://172.16.21.191:1337/api/spaces')
+    .then(res => res.json())
+    .then(data => {
+      dispatch(setSpaces(data))
+    })
+    .catch(err => console.log(err))
 }
 
 const initialState = []
