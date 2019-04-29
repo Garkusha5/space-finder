@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import { Constants, MapView, Location, Permissions, Image } from 'expo'
-import { getSpaces } from '../redux/rootReducer'
+import { Polyline, MapViewDirections } from 'react-native-maps'
+import {
+  Constants,
+  MapView,
+  Location,
+  Permissions,
+  Image,
+  TouchableHighlight
+} from 'expo'
+import { getSpaces, getDirections } from '../redux/rootReducer'
 import { connect } from 'react-redux'
 // import console = require('console');
 
@@ -13,10 +21,11 @@ class MapScreen extends React.Component {
       locationResult: null,
       location: { coords: { latitude: 40.7051, longitude: -74.0092 } }
     }
+    this.markerClick = this.markerClick.bind(this)
   }
 
   static navigationOptions = {
-    title: 'Map of Spaces'
+    title: 'Zoom in!'
   }
 
   componentDidMount() {
@@ -37,7 +46,12 @@ class MapScreen extends React.Component {
     this.setState({ locationResult: JSON.stringify(location), location })
   }
 
+  markerClick(cLa, cLn, la, ln) {
+    return this.props.getDirections(cLa, cLn, la, ln)
+  }
+
   render() {
+    // console.log(this.props.directions.route.legs.maneuvers)
     return (
       <View style={{ flex: 1 }}>
         <MapView
@@ -50,24 +64,30 @@ class MapScreen extends React.Component {
           }}
           showsUserLocation={true}
         >
-          {this.props.data[0] !== undefined &&
-            this.props.data[0].map(space => (
-              <MapView.Marker
-                key={space.id}
-                coordinate={{
-                  latitude: Number(space.latitude),
-                  longitude: Number(space.longitude)
-                }}
-                title={space.buildingName || space.address}
-                description={
-                  space.type1 ||
-                  space.type2 ||
-                  space.type3 ||
-                  space.type4 ||
-                  space.type5
-                }
-                pinColor={'turquoise'}
-              />
+          {this.props.data !== undefined &&
+            this.props.data.map(space => (
+              <View key={space.id}>
+                <MapView.Marker
+                  coordinate={{
+                    latitude: Number(space.latitude),
+                    longitude: Number(space.longitude)
+                  }}
+                  title={space.address}
+                  description={`${space.buildingName}: ${space.type1} ${
+                    space.type2
+                  } ${space.type3} ${space.type4} ${space.type5}`}
+                  pinColor={'turquoise'}
+                  onPress={() =>
+                    this.markerClick(
+                      this.state.location.coords.latitude,
+                      this.state.location.coords.longitude,
+                      space.latitude,
+                      space.longitude
+                    )
+                  }
+                />
+                {/* <Polyline /> */}
+              </View>
             ))}
         </MapView>
       </View>
@@ -92,15 +112,26 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1
+  },
+  customView: {
+    backgroundColor: 'aqua'
+  },
+  calloutText: {
+    color: 'grey'
   }
 })
 
 const mapDispatchToProps = dispatch => {
-  return { setData: () => dispatch(getSpaces()) }
+  return {
+    setData: () => dispatch(getSpaces()),
+    getDirections: (curLoc, lat, lng) =>
+      dispatch(getDirections(curLoc, lat, lng))
+  }
 }
 
 const mapStateToProps = state => {
-  return { data: state }
+  console.log(state.directions)
+  return { data: state.spaces, directions: state.directions }
 }
 
 export default connect(

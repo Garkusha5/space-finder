@@ -14,7 +14,7 @@ const seed = async () => {
       let response = await fetch(
         `http://open.mapquestapi.com/geocoding/v1/address?key=BGCVggKXKVscIKMloZtIWNJ3iufKg02c&location=${
           addressArray[i]
-        }+new+york`
+        }+new+york+city`
       )
 
       let myJson = await response.json()
@@ -38,48 +38,6 @@ const seed = async () => {
       console.error(error)
     }
   }
-
-  // const stuff = fetch(
-  //   `http://open.mapquestapi.com/geocoding/v1/address?key=BGCVggKXKVscIKMloZtIWNJ3iufKg02c&location=${a}+new+york`
-  // )
-  //   .then(function(response) {
-  //     return response.json()
-  //   })
-  //   .then(json => json.results[0].locations)
-  //   .then(locations => {
-  //     if ()
-  //   })
-
-  // for (let i = 0; i < data.length; i++) {
-  //
-  //   let latitude, longitude
-
-  //   for (let i = 0; i < mapInfo.length; i++) {
-  //     latitude = latitude
-  //     longitude = longitude
-  //     if (mapInfo[i]['adminArea5'] === 'New York City') {
-  //       latitude = mapInfo[i]['latLng'].lat
-  //       longitude = mapInfo[i]['latLng'].lng
-  //     }
-  //   }
-
-  // try {
-  //   await Spaces.create({
-  //     address: space['Building Address'],
-  //     buildingName: space['Building Name'],
-  //     buildingLocation: space['Building Location'],
-  //     // latitude: latitude,
-  //     // longitude: longitude,
-  //     state: 'New York',
-  //     type1: space['Public Space 1'],
-  //     type2: space['Public Space 2'],
-  //     type3: space['Public Space 3'],
-  //     type4: space['Public Space 4'],
-  //     type5: space['Public Space 5']
-  //   })
-  // } catch (error) {
-  //   error.message
-  // }
 
   console.log(green('Seeding success!'))
   db.close()
