@@ -27,4 +27,4 @@
 * NYC gov data
 
 
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+![Image of myProject](/assets/images/IMG_3916.jpg)
