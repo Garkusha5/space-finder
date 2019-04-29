@@ -27,4 +27,4 @@
 * NYC gov data
 
 
-![Image of myProject](/assets/images/IMG_3916.jpg)
+![Image of myProject](space-finder/assets/images/IMG_3916.jpg)
