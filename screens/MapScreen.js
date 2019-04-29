@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import { Polyline, MapViewDirections } from 'react-native-maps'
+import { Polyline } from 'react-native-maps'
+import MapView from 'react-native-maps'
+import MapViewDirections from 'react-native-maps-directions'
 import {
   Constants,
-  MapView,
+  // MapView,
   Location,
   Permissions,
   Image,
@@ -86,7 +88,16 @@ class MapScreen extends React.Component {
                     )
                   }
                 />
-                {/* <Polyline /> */}
+                <MapViewDirections
+                  origin={this.state.location.coords}
+                  destination={{
+                    latitude: Number(space.latitude),
+                    longitude: Number(space.longitude)
+                  }}
+                  apikey={'AIzaSyDnOAEaMvhSODFq3NrLSOxOkCXG-ITPUfM'}
+                  strokeWidth={3}
+                  strokeColor="hotpink"
+                />
               </View>
             ))}
         </MapView>
